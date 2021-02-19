@@ -1,2 +1,2 @@
-# ChemSat2020
-Code repo for the 2020 chemistry research demosat payload
+# ChemSat2021
+Code repo for the 2021 chemistry research demosat payload

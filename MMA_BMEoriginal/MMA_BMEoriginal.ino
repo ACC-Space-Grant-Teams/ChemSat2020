@@ -18,8 +18,12 @@
 
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
-#include <Adafruit_MMA8451.h>
+#include <Adafruit_BME280.h>    //temp, humidity, pressure
+#include <Adafruit_MMA8451.h>   //accelerometer
+#include <LiquidCrystal_I2C.h>  //LCD screen
+#include <ADS1115_WE.h>         //amplifier
+#include <Adafruit_DS3502.h>    //potentiometer
+#include <DS3231.h>             //real time clock
 
 #define SEALEVELPRESSURE_HPA (1013.25)
 

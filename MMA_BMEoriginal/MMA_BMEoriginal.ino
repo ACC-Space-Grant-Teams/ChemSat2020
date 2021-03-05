@@ -125,7 +125,7 @@ void printCsvHeader() {
 void startTime(){
   //came from the "DS3231_set" example for the DS3231 library
     if (Serial.available()) {
-    GetDateStuff(Year, Month, Date, DoW, Hour, Minute, Second); }
+    GetDateStuff(Year, Month, Date, DoW, Hour, Minute, Second); 
 
     Clock.setClockMode(false);  // set to 24h
     //setClockMode(true); // set to 12h
@@ -137,6 +137,7 @@ void startTime(){
     Clock.setHour(Hour);
     Clock.setMinute(Minute);
     Clock.setSecond(Second);
+    }
 }
 
 void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, byte& Hour, byte& Minute, byte& Second) {  

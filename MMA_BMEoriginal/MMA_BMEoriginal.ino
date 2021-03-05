@@ -32,7 +32,14 @@ Adafruit_BME280 bme_internal; // I2C
 Adafruit_BME280 bme_external; // I2C
 Adafruit_MMA8451 mma = Adafruit_MMA8451();
 
+void printValues(Adafruit_BME280 &bme);
+void getMMAData();
+
 //for the real time clock
+void startTime();
+void getTimeInfo();
+void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, 
+    byte& Hour, byte& Minute, byte& Second);
 RTClib myRTC;
 DS3231 Clock;
 byte Year;
@@ -51,6 +58,7 @@ Adafruit_DS3502 ds3502 = Adafruit_DS3502();
       * DS3502 RL to GND
       * DS3502 RW to the pin specified by WIPER_VALUE_PIN
     */
+void getPotetData();
 
 //for the amplifier
 

@@ -32,6 +32,31 @@ Adafruit_BME280 bme_internal; // I2C
 Adafruit_BME280 bme_external; // I2C
 Adafruit_MMA8451 mma = Adafruit_MMA8451();
 
+//for the real time clock
+RTClib myRTC;
+DS3231 Clock;
+byte Year;
+byte Month;
+byte Date;
+byte DoW;
+byte Hour;
+byte Minute;
+byte Second;
+
+//for the potentiometer
+Adafruit_DS3502 ds3502 = Adafruit_DS3502();
+#define WIPER_VALUE_PIN A0
+    /* For this code, make the following connections:
+      * DS3502 RH to 5V
+      * DS3502 RL to GND
+      * DS3502 RW to the pin specified by WIPER_VALUE_PIN
+    */
+
+//for the amplifier
+
+//for the LCD screen
+
+
 unsigned long delayTime;
 
 void setup() {
@@ -53,11 +78,16 @@ void setup() {
     Serial.print(",Range = "); Serial.print(2 << mma.getRange());  
     Serial.println("G");
 
+    //start the real time clock
+    startTime();
+    //print the header for the rest of the data
     printCsvHeader();
 }
 
 
 void loop() {
+    getTimeInfo(); //get the real time clock info
+    //delay(delayTime); //not sure if this is needed here or not
     // Only needed in forced mode! In normal mode, you can remove the next line.
     bme_internal.takeForcedMeasurement(); // has no effect in normal mode
     bme_external.takeForcedMeasurement();
@@ -65,19 +95,103 @@ void loop() {
     printValues(bme_external);
     delay(delayTime);
     getMMAData();
+    getPotetData(); //potentiometer data
     delay(delayTime);
     Serial.println();
 }
 
 void printCsvHeader() {
-    Serial.print("C,hPa,m,%,");
-    Serial.print("C,hPa,m,%,");
-    Serial.print(",,,m/s^2 ,m/s^2 ,m/s^2,,");
+    Serial.print("RTC,");                     //real time clock
+    Serial.print("C,hPa,m,%,");               //internal sensors
+    Serial.print("C,hPa,m,%,");               //external sensors
+    Serial.print(",,,m/s^2 ,m/s^2 ,m/s^2,,"); //accelerometer
+    Serial.print("Wiper set to: 63");         //potentiometer - dont forget to change value in code for whatever value is needed
     Serial.println();
-    Serial.print("internalTemp,internalPres,internalAlt,internalHum,");
-    Serial.print("externalTemp,externalPres,externalAlt,externalHum,");
-    Serial.print("x,y,z,xAccel,yAccel,zAccel,orientation,");
+    Serial.print("hh:mm:ss,");                                           //real time clock
+    Serial.print("internalTemp,internalPres,internalAlt,internalHum,");  //internal sensors
+    Serial.print("externalTemp,externalPres,externalAlt,externalHum,");  //external sensors
+    Serial.print("x,y,z,xAccel,yAccel,zAccel,orientation,");             //accelerometer
+    Serial.print("V,");                                                  //potentiometer
     Serial.println();
+}
+
+void startTime(){
+  //came from the "DS3231_set" example for the DS3231 library
+    if (Serial.available()) {
+    GetDateStuff(Year, Month, Date, DoW, Hour, Minute, Second);
+
+    Clock.setClockMode(false);  // set to 24h
+    //setClockMode(true); // set to 12h
+
+    Clock.setYear(Year);
+    Clock.setMonth(Month);
+    Clock.setDate(Date);
+    Clock.setDoW(DoW);
+    Clock.setHour(Hour);
+    Clock.setMinute(Minute);
+    Clock.setSecond(Second);
+}
+
+void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, 
+    byte& Hour, byte& Minute, byte& Second) {  
+  //came from the "DS3231_set" example for the DS3231 library
+  // Call this if you notice something coming in on 
+  // the serial port. The stuff coming in should be in 
+  // the order YYMMDDwHHMMSS, with an 'x' at the end.
+  boolean GotString = false;
+  char InChar;
+  byte Temp1, Temp2;
+  char InString[20];
+
+  byte j=0;
+  while (!GotString) {
+    if (Serial.available()) {
+      InChar = Serial.read();
+      InString[j] = InChar;
+      j += 1;
+      if (InChar == 'x') {
+        GotString = true;
+      }
+    }
+  }
+  Serial.println(InString);
+  // Read Year first
+  Temp1 = (byte)InString[0] -48;
+  Temp2 = (byte)InString[1] -48;
+  Year = Temp1*10 + Temp2;
+  // now month
+  Temp1 = (byte)InString[2] -48;
+  Temp2 = (byte)InString[3] -48;
+  Month = Temp1*10 + Temp2;
+  // now date
+  Temp1 = (byte)InString[4] -48;
+  Temp2 = (byte)InString[5] -48;
+  Day = Temp1*10 + Temp2;
+  // now Day of Week
+  DoW = (byte)InString[6] - 48;   
+  // now Hour
+  Temp1 = (byte)InString[7] -48;
+  Temp2 = (byte)InString[8] -48;
+  Hour = Temp1*10 + Temp2;
+  // now Minute
+  Temp1 = (byte)InString[9] -48;
+  Temp2 = (byte)InString[10] -48;
+  Minute = Temp1*10 + Temp2;
+  // now Second
+  Temp1 = (byte)InString[11] -48;
+  Temp2 = (byte)InString[12] -48;
+  Second = Temp1*10 + Temp2;
+}
+
+void getTimeInfo() {
+//came from the "now" example for the DS3231 library
+    DateTime now = myRTC.now();
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    //Serial.println();
 }
 
 void getMMAData() {
@@ -146,4 +260,18 @@ void printValues(Adafruit_BME280 &bme) {
 
     Serial.print(bme.readHumidity());
     Serial.print(",");
+}
+
+void getPotetData(){
+  //came from the "ds3502_test" example for the DS3502 library
+    Serial.print("Wiper voltage with wiper set to 63: ");
+    ds3502.setWiper(63);
+    float wiper_value = analogRead(WIPER_VALUE_PIN);
+    wiper_value *= 5.0;
+    wiper_value /= 1024;
+    Serial.print(wiper_value);
+    //Serial.println(" V");
+
+    //Serial.println();
+    //delay(1000);
 }

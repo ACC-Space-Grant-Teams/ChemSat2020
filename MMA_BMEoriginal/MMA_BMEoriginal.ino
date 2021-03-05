@@ -51,7 +51,8 @@ void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, byte& Hour, byt
 
 //for the potentiometer
 Adafruit_DS3502 ds3502 = Adafruit_DS3502();
-#define WIPER_VALUE_PIN A0
+#define WIPER_VALUE_PIN1 0x28
+#define WIPER_VALUE_PIN2 0x29
     /* For this code, make the following connections:
       * DS3502 RH to 5V
       * DS3502 RL to GND
@@ -118,7 +119,7 @@ void printCsvHeader() {
     Serial.print("internalTemp,internalPres,internalAlt,internalHum,");  //internal sensors
     Serial.print("externalTemp,externalPres,externalAlt,externalHum,");  //external sensors
     Serial.print("x,y,z,xAccel,yAccel,zAccel,orientation,");             //accelerometer
-    Serial.print("V,");                                                  //potentiometer
+    Serial.print("V,V,");                                                //potentiometer
     Serial.println();
 }
 
@@ -273,10 +274,14 @@ void getPotetData(){
   //came from the "ds3502_test" example for the DS3502 library
     Serial.print("Wiper voltage with wiper set to 63: ");
     ds3502.setWiper(63);
-    float wiper_value = analogRead(WIPER_VALUE_PIN);
-    wiper_value *= 5.0;
-    wiper_value /= 1024;
-    Serial.print(wiper_value);
+    float wiper_value1 = analogRead(WIPER_VALUE_PIN1);
+    wiper_value1 *= 5.0;
+    wiper_value1 /= 1024;
+    Serial.print(wiper_value1);
+    float wiper_value2 = analogRead(WIPER_VALUE_PIN2);
+    wiper_value2 *= 5.0;
+    wiper_value2 /= 1024;
+    Serial.print(wiper_value2);
     //Serial.println(" V");
 
     //Serial.println();

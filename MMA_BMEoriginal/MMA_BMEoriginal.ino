@@ -38,8 +38,6 @@ void getMMAData();
 //for the real time clock
 void startTime();
 void getTimeInfo();
-void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, 
-    byte& Hour, byte& Minute, byte& Second);
 RTClib myRTC;
 DS3231 Clock;
 byte Year;
@@ -49,6 +47,8 @@ byte DoW;
 byte Hour;
 byte Minute;
 byte Second;
+void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, 
+    byte& Hour, byte& Minute, byte& Second);
 
 //for the potentiometer
 Adafruit_DS3502 ds3502 = Adafruit_DS3502();

@@ -47,8 +47,7 @@ byte DoW;
 byte Hour;
 byte Minute;
 byte Second;
-void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, 
-    byte& Hour, byte& Minute, byte& Second);
+void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, byte& Hour, byte& Minute, byte& Second);
 
 //for the potentiometer
 Adafruit_DS3502 ds3502 = Adafruit_DS3502();
@@ -126,7 +125,7 @@ void printCsvHeader() {
 void startTime(){
   //came from the "DS3231_set" example for the DS3231 library
     if (Serial.available()) {
-    GetDateStuff(Year, Month, Date, DoW, Hour, Minute, Second);
+    GetDateStuff(Year, Month, Date, DoW, Hour, Minute, Second); }
 
     Clock.setClockMode(false);  // set to 24h
     //setClockMode(true); // set to 12h
@@ -140,8 +139,7 @@ void startTime(){
     Clock.setSecond(Second);
 }
 
-void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, 
-    byte& Hour, byte& Minute, byte& Second) {  
+void GetDateStuff(byte& Year, byte& Month, byte& Day, byte& DoW, byte& Hour, byte& Minute, byte& Second) {  
   //came from the "DS3231_set" example for the DS3231 library
   // Call this if you notice something coming in on 
   // the serial port. The stuff coming in should be in 

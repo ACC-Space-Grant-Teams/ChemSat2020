@@ -449,7 +449,7 @@ float readChannel(ADS1115_MUX channel) {
 }
 
 void lcdPrint(){
- //came from the "" example for the 
+ //came from the "HelloWorld" example for the LCD Liquid Crystal
   // when characters arrive over the serial port...
   if (Serial.available()) {
     // wait a bit for the entire message to arrive

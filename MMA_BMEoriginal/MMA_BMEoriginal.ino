@@ -83,6 +83,7 @@ void getMMAData();
 //for the LCD screen
   LiquidCrystal_I2C lcd(0x27,20,4); // set the LCD address to 0x27 for a 16 chars and 2 line display
   void lcdPrint();
+  bool lcd_detected = false;
 
   unsigned long delayTime;
 
@@ -451,15 +452,8 @@ float readChannel(ADS1115_MUX channel) {
 void lcdPrint(){
  //came from the "HelloWorld" example for the LCD Liquid Crystal
   // when characters arrive over the serial port...
-  if (Serial.available()) {
-    // wait a bit for the entire message to arrive
-    delay(100);
-    // clear the screen
-    lcd.clear();
-    // read all the available characters
-    while (Serial.available() > 0) {
-      // display each character to the LCD
-      lcd.write(Serial.read());
-    }
-  }
+ if(lcd_detected){
+    //print code to LCD screen
+ }
+
 }

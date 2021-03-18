@@ -26,8 +26,8 @@ DS3231 RTC              internal              0x68
 DS3502 Pot              solar cells 1 and 2   0x28
 DS3502 Pot              solar cells 3 and 4   0x29
 LCD Screen              external              0x27
-BME280 TEMP             internal              0x76
-BME280 TEMP             external              0x77
+BME280 TEMP             internal              0x77
+BME280 TEMP             external              0x76
  ***************************************************************************/
 
 #include <Wire.h>

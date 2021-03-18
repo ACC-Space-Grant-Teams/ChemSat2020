@@ -37,7 +37,7 @@ void loop() {
 
 void printCSVHeader()
 {
-    Serial.print("rawX,rawY,rawZ,m/s^2 ,m/s^2 ,m/s^2,portrait,");
+    Serial.print("rawData,rawData,rawData,m/s^2 ,m/s^2 ,m/s^2,facing,");
     Serial.println();
     Serial.print("x,y,z,xAccel,yAccel,zAccel,orientation,");
     Serial.println();

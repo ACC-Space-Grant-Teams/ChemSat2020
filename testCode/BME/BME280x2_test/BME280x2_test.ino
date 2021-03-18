@@ -1,5 +1,5 @@
 /*
-Code came from Adafruit_BME280_Library, examples, bme280test and advancedsettings
+Code came from Adafruit_BME280_Library -> examples -> advancedsettings
 Jillian Frimml
 3/18/2021
 

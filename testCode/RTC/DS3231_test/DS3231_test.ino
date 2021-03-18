@@ -19,28 +19,42 @@ DS3231 clock;
 bool h12Flag;
 bool pmFlag;
 
+unsigned long delayTime;
+
 void setup() {
   // Start the I2C interface
   Wire.begin();
  
   // Start the serial interface
   Serial.begin(9600);
+
+  delay(2000);
+  printCSVHeader();
 }
 
 void loop() {
+  getRTCData();
+  delay(delayTime);
+}
+
+void printCSVHeader() {
+    Serial.print("Real,Time,Clock,C,");
+    Serial.println();
+    Serial.print("H,M,S,clockTemp,");
+    Serial.println();
+}
+
+void getRTCData(){
   // send what's going on to the serial monitor.
-  
   //Print the hour, minute, and second
-  Serial.print("H: ");
   Serial.print(clock.getHour(h12Flag, pmFlag), DEC);
-  Serial.print(" M: ");
+    Serial.print(",");
   Serial.print(clock.getMinute(), DEC);
-  Serial.print(" S: ");
+    Serial.print(",");
   Serial.print(clock.getSecond(), DEC);
+    Serial.print(",");
 
   // Display the temperature
-  Serial.print(" T= ");
-  Serial.println(clock.getTemperature(), 2);
-
-  delay(1000);
+  Serial.print(clock.getTemperature(), 2);
+    Serial.println(",");
 }

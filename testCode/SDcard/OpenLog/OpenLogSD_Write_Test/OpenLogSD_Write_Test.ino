@@ -14,9 +14,7 @@ Nano:   not used     ground   3.3v or 5v    RX      TX      not used
 */
 
 #include <Wire.h>
-//#include <SPI.h>
-//#include <SD.h>
-//File myFile;
+
 unsigned long delayTime;
 
 void setup() {
@@ -29,8 +27,8 @@ void setup() {
     //open the openlog serial sd card recording monitor
     Serial1.begin(9600);
 
-  delay(2000);
-  printCSVHeader();
+    delay(2000);
+    printCSVHeader();
 
     //to be deleted once all the code is put together
     delayTime = 1000;

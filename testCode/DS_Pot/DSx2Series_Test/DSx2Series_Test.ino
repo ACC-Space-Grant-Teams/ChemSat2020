@@ -1,3 +1,17 @@
+/***************************************************************************
+* uses 2 potentiometers in series
+*
+* Jillian Frimml
+* 3/25/2021
+* This set up has the following parameters:
+* DS2 RH has the high voltage input
+* DS2 RW is connected to DS1 RW
+* DS1 RL is ground
+* DS1 RW is connected to A0 for voltage readings
+*
+* 
+***************************************************************************/
+
 #include <Adafruit_DS3502.h>
 
 #define ds1_address 0x28
@@ -23,18 +37,18 @@ void setup() {
     // Wait until serial port is opened
     while (!Serial) { delay(1); }
 
-    Serial.println("Adafruit DS3502 Test");
+    Serial.println("Adafruit DS Series Test");
     
     if (!ds1.begin(ds1_address, &Wire)) {
-        Serial.println("Couldn't find DS3502 chip");
+        Serial.println("Couldn't find DS1 chip");
         while (1);
     }
 
     if (!ds2.begin(ds2_address, &Wire)) {
-        Serial.println("Couldn't find DS3502 chip");
+        Serial.println("Couldn't find DS2 chip");
         while (1);
     }
-    Serial.println("Found DS3502 chip");
+
 }
 
 void loop() {
@@ -42,7 +56,17 @@ void loop() {
     float wiper_value2;
     uint8_t w_value1;
     uint8_t w_value2;
-    
+
+    ds2.setWiper(0);
+    w_value2 = ds2.getWiper();
+    Serial.print("DS2 - Wiper voltage with wiper set to " );
+    Serial.println(w_value2);
+    //Serial.print(" : ");
+    //wiper_value2 = analogRead(WIPER_VALUE_PIN2);
+    //wiper_value2 *= 5.0;
+    //wiper_value2 /= 1024;
+    //Serial.print(wiper_value2);
+    //Serial.println(" V");
 
     ds1.setWiper(0);
     w_value1 = ds1.getWiper();
@@ -55,125 +79,7 @@ void loop() {
     Serial.print(wiper_value1);
     Serial.println(" V");
 
-    ds2.setWiper(0);
-    w_value2 = ds2.getWiper();
-    Serial.print("DS2 - Wiper voltage with wiper set to " );
-    Serial.print(w_value2);
-    Serial.print(" : ");
-    wiper_value2 = analogRead(WIPER_VALUE_PIN2);
-    wiper_value2 *= 5.0;
-    wiper_value2 /= 1024;
-    Serial.print(wiper_value2);
-    Serial.println(" V");
-
     Serial.println();
     delay(delay_time);
 
-
-
-    ds1.setWiper(63);
-    w_value1 = ds1.getWiper();
-    Serial.print("DS1 - Wiper voltage with wiper set to " );
-    Serial.print(w_value1);
-    Serial.print(" : ");
-    wiper_value1 = analogRead(WIPER_VALUE_PIN1);
-    wiper_value1 *= 5.0;
-    wiper_value1 /= 1024;
-    Serial.print(wiper_value1);
-    Serial.println(" V");
-
-    ds2.setWiper(0);
-    w_value2 = ds2.getWiper();
-    Serial.print("DS2 - Wiper voltage with wiper set to " );
-    Serial.print(w_value2);
-    Serial.print(" : ");
-    wiper_value2 = analogRead(WIPER_VALUE_PIN2);
-    wiper_value2 *= 5.0;
-    wiper_value2 /= 1024;
-    Serial.print(wiper_value2);
-    Serial.println(" V");
-
-    Serial.println();
-    delay(delay_time);
-
-
-
-    ds1.setWiper(127);
-    w_value1 = ds1.getWiper();
-    Serial.print("DS1 - Wiper voltage with wiper set to " );
-    Serial.print(w_value1);
-    Serial.print(" : ");
-    wiper_value1 = analogRead(WIPER_VALUE_PIN1);
-    wiper_value1 *= 5.0;
-    wiper_value1 /= 1024;
-    Serial.print(wiper_value1);
-    Serial.println(" V");
-
-    ds2.setWiper(0);
-    w_value2 = ds2.getWiper();
-    Serial.print("DS2 - Wiper voltage with wiper set to " );
-    Serial.print(w_value2);
-    Serial.print(" : ");
-    wiper_value2 = analogRead(WIPER_VALUE_PIN2);
-    wiper_value2 *= 5.0;
-    wiper_value2 /= 1024;
-    Serial.print(wiper_value2);
-    Serial.println(" V");
-
-    Serial.println();
-    delay(delay_time);
-
-    
-    
-    ds1.setWiper(127);
-    w_value1 = ds1.getWiper();
-    Serial.print("DS1 - Wiper voltage with wiper set to " );
-    Serial.print(w_value1);
-    Serial.print(" : ");
-    wiper_value1 = analogRead(WIPER_VALUE_PIN1);
-    wiper_value1 *= 5.0;
-    wiper_value1 /= 1024;
-    Serial.print(wiper_value1);
-    Serial.println(" V");
-
-    ds2.setWiper(63);
-    w_value2 = ds2.getWiper();
-    Serial.print("DS2 - Wiper voltage with wiper set to " );
-    Serial.print(w_value2);
-    Serial.print(" : ");
-    wiper_value2 = analogRead(WIPER_VALUE_PIN2);
-    wiper_value2 *= 5.0;
-    wiper_value2 /= 1024;
-    Serial.print(wiper_value2);
-    Serial.println(" V");
-
-    Serial.println();
-    delay(delay_time);
-
-
-
-    ds1.setWiper(127);
-    w_value1 = ds1.getWiper();
-    Serial.print("DS1 - Wiper voltage with wiper set to " );
-    Serial.print(w_value1);
-    Serial.print(" : ");
-    wiper_value1 = analogRead(WIPER_VALUE_PIN1);
-    wiper_value1 *= 5.0;
-    wiper_value1 /= 1024;
-    Serial.print(wiper_value1);
-    Serial.println(" V");
-
-    ds2.setWiper(127);
-    w_value2 = ds2.getWiper();
-    Serial.print("DS2 - Wiper voltage with wiper set to " );
-    Serial.print(w_value2);
-    Serial.print(" : ");
-    wiper_value2 = analogRead(WIPER_VALUE_PIN2);
-    wiper_value2 *= 5.0;
-    wiper_value2 /= 1024;
-    Serial.print(wiper_value2);
-    Serial.println(" V");
-
-    Serial.println();
-    delay(delay_time);
 }

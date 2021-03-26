@@ -343,7 +343,7 @@ void getADSData(){
 */
 
   //Serial.print(",   2 to 3: ");
-  voltage = readChannel(ADS1115_COMP_2_3);
+  voltage = readChannel(ADS1115_COMP_0_1);
   Serial.println(voltage);
 
   //delay(delay_time);

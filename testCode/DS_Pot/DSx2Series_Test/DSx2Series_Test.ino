@@ -4,8 +4,9 @@
 * Jillian Frimml
 * 3/25/2021
 * This set up has the following parameters:
-* DS2 RH has the high voltage input
+* DS2 RW has the high voltage input
 * DS2 RW is connected to DS1 RW
+* DS2 RW is connect to A1 for voltage readings
 * DS1 RL is ground
 * DS1 RW is connected to A0 for voltage readings
 *
@@ -57,16 +58,16 @@ void loop() {
     uint8_t w_value1;
     uint8_t w_value2;
 
-    ds2.setWiper(0);
+    ds2.setWiper(127);
     w_value2 = ds2.getWiper();
     Serial.print("DS2 - Wiper voltage with wiper set to " );
-    Serial.println(w_value2);
-    //Serial.print(" : ");
-    //wiper_value2 = analogRead(WIPER_VALUE_PIN2);
-    //wiper_value2 *= 5.0;
-    //wiper_value2 /= 1024;
-    //Serial.print(wiper_value2);
-    //Serial.println(" V");
+    Serial.print(w_value2);
+    Serial.print(" : ");
+    wiper_value2 = analogRead(WIPER_VALUE_PIN2);
+    wiper_value2 *= 5.0;
+    wiper_value2 /= 1024;
+    Serial.print(wiper_value2);
+    Serial.println(" V");
 
     ds1.setWiper(0);
     w_value1 = ds1.getWiper();

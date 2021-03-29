@@ -97,53 +97,53 @@ void setup() {
 
     //BME
     if (! bme_internal.begin(0x77, &Wire)) {
-        Serial.println("Could not find a valid internal BME280 sensor, check wiring!");
+        Serial1.println("Could not find a valid internal BME280 sensor, check wiring!");
         lcd.println("Internal BME sensor issue.");
         lcd.clear();
     }
 
     if (! bme_external.begin(0x76, &Wire)) {
-        Serial.println("Could not find a valid external BME280 sensor, check wiring!");
+        Serial1.println("Could not find a valid external BME280 sensor, check wiring!");
         lcd.println("External BME sensor issue.");
         lcd.clear();
     }
 
     //MMA
     if (! mma.begin()) {
-      Serial.println("Couldnt start mma");
+      Serial1.println("Couldnt start mma");
       lcd.println("MMA sensor issue.");
       lcd.clear();
     }
     
-    Serial.print("Sealevelhpa,"); Serial.print(SEALEVELPRESSURE_HPA);
+    Serial1.print("Sealevelhpa,"); Serial.print(SEALEVELPRESSURE_HPA);
     mma.setRange(MMA8451_RANGE_2_G);
-    Serial.print(",Range = "); Serial.print(2 << mma.getRange());  
-    Serial.println("G");
+    Serial1.print(",Range = "); Serial.print(2 << mma.getRange());  
+    Serial1.println("G");
 
     //potentiometers
     if (!ds1a.begin(ds1a_address, &Wire)) {
-        Serial.println("Couldn't find DS1a chip");
+        Serial1.println("Couldn't find DS1a chip");
         lcd.println("DS 1 sensor issue.");
         lcd.clear();
         while (1);
     }
 
     if (!ds1b.begin(ds1b_address, &Wire)) {
-        Serial.println("Couldn't find DS1b chip");
+        Serial1.println("Couldn't find DS1b chip");
         lcd.println("DS 2 sensor issue.");
         lcd.clear();
         while (1);
     }
     
     if (!ds2a.begin(ds2a_address, &Wire)) {
-        Serial.println("Couldn't find DS2a chip");
+        Serial1.println("Couldn't find DS2a chip");
         lcd.println("DS 3 sensor issue.");
         lcd.clear();
         while (1);
     }
 
     if (!ds2b.begin(ds2b_address, &Wire)) {
-        Serial.println("Couldn't find DS2b chip");
+        Serial1.println("Couldn't find DS2b chip");
         lcd.println("DS 4 sensor issue.");
         lcd.clear();
         while (1);
@@ -151,7 +151,7 @@ void setup() {
     
     //for the ADC
     if(!adc.init()){
-      Serial.println("ADS1115 not connected!");
+      Serial1.println("ADS1115 not connected!");
       lcd.println("ADS sensor issue.");
       lcd.clear();
     }
@@ -160,7 +160,7 @@ void setup() {
     adc.setCompareChannels(ADS1115_COMP_0_GND); //comment line/change parameter to change channel
     adc.setMeasureMode(ADS1115_CONTINUOUS); //comment line/change parameter to change mode
 
-    Serial.println();
+    Serial1.println();
 
 
     while(!Serial){
@@ -180,7 +180,7 @@ void loop() {
     getDSData();
     
     delay(delayTime);
-    Serial.println();
+    Serial1.println();
 }
 
 float readChannel(ADS1115_MUX channel) {
@@ -215,69 +215,36 @@ void getDSData(){
        getSensorData();
        ds1b.setWiper(i);
        w_value1b = i;
-       Serial.print(w_value1b);
-       Serial.print(",");
+       Serial1.print(w_value1b);
+       Serial1.print(",");
        ohm_value1b = w_value1b * resistance;
-       Serial.print(ohm_value1b);
-       Serial.print(",");
-       Serial.print(w_value1a);
-       Serial.print(",");
+       Serial1.print(ohm_value1b);
+       Serial1.print(",");
+       Serial1.print(w_value1a);
+       Serial1.print(",");
        ohm_value1a = w_value1a * resistance;
-       Serial.print(ohm_value1a);
-       Serial.print(",");
+       Serial1.print(ohm_value1a);
+       Serial1.print(",");
        
        ds2b.setWiper(i);
        w_value2b = i;
-       Serial.print(w_value2b);
-       Serial.print(",");
+       Serial1.print(w_value2b);
+       Serial1.print(",");
        ohm_value2b = w_value2b * resistance;
-       Serial.print(ohm_value2b);
-       Serial.print(",");
-       Serial.print(w_value2a);
-       Serial.print(",");
+       Serial1.print(ohm_value2b);
+       Serial1.print(",");
+       Serial1.print(w_value2a);
+       Serial1.print(",");
        ohm_value2a = w_value2a * resistance;
-       Serial.print(ohm_value2a);
-       Serial.print(",");
+       Serial1.print(ohm_value2a);
+       Serial1.print(",");
        getADCData();
        delay(delayTime);
        blinkLED();
     }
 
 
-//for the pot number 1b set to 127, with 1a set to 0
-/*int i = 127;
-
-       getSensorData();
-       ds1b.setWiper(i);
-       w_value1b = i;
-       Serial.print(w_value1b);
-       Serial.print(",");
-       ohm_value1b = w_value1b * resistance;
-       Serial.print(ohm_value1b);
-       Serial.print(",");
-       Serial.print(w_value1a);
-       Serial.print(",");
-       ohm_value1a = w_value1a * resistance;
-       Serial.print(ohm_value1a);
-       Serial.print(",");
-
-       ds2b.setWiper(i);
-       w_value2b = i;
-       Serial.print(w_value2b);
-       Serial.print(",");
-       ohm_value2b = w_value2b * resistance;
-       Serial.print(ohm_value2b);
-       Serial.print(",");
-       Serial.print(w_value2a);
-       Serial.print(",");
-       ohm_value2a = w_value2a * resistance;
-       Serial.print(ohm_value2a);
-       Serial.print(",");
-       getADCData();
-       blinkLED();
-       delay(delayTime);
-*/
-//for the pot number 1a, with 1b set to 127
+//for the pot number 1a, with 1b set to 127, continuing in steps of 10
     for (int j = 3; j <= 127; j+=10){
 int i = 127;
 ds1b.setWiper(i);
@@ -288,67 +255,67 @@ w_value2b = i;
       getSensorData();
        ds1a.setWiper(j);
        w_value1a = j;
-       Serial.print(w_value1b);
-       Serial.print(",");
+       Serial1.print(w_value1b);
+       Serial1.print(",");
        ohm_value1b = w_value1b * resistance;
-       Serial.print(ohm_value1b);
-       Serial.print(",");
-       Serial.print(w_value1a);
-       Serial.print(",");
+       Serial1.print(ohm_value1b);
+       Serial1.print(",");
+       Serial1.print(w_value1a);
+       Serial1.print(",");
        ohm_value1a = w_value1a * resistance;
-       Serial.print(ohm_value1a);
-       Serial.print(",");
+       Serial1.print(ohm_value1a);
+       Serial1.print(",");
 
        ds2a.setWiper(j);
        w_value2a = j;
-       Serial.print(w_value2b);
-       Serial.print(",");
+       Serial1.print(w_value2b);
+       Serial1.print(",");
        ohm_value2b = w_value2b * resistance;
-       Serial.print(ohm_value2b);
-       Serial.print(",");
-       Serial.print(w_value2a);
-       Serial.print(",");
+       Serial1.print(ohm_value2b);
+       Serial1.print(",");
+       Serial1.print(w_value2a);
+       Serial1.print(",");
        ohm_value2a = w_value2a * resistance;
-       Serial.print(ohm_value2a);
-       Serial.print(",");
+       Serial1.print(ohm_value2a);
+       Serial1.print(",");
        getADCData();
        blinkLED();
        delay(delayTime);
     }
 
-//for the pot number 1a set to 127, with 1b set to 127
+//for the pot number 1a set to 127, with 1b set to 127, a half step
 int j = 127;
       getSensorData();
        ds1a.setWiper(j);
        w_value1a = j;
-       Serial.print(w_value1b);
-       Serial.print(",");
+       Serial1.print(w_value1b);
+       Serial1.print(",");
        ohm_value1b = w_value1b * resistance;
-       Serial.print(ohm_value1b);
-       Serial.print(",");
-       Serial.print(w_value1a);
-       Serial.print(",");
+       Serial1.print(ohm_value1b);
+       Serial1.print(",");
+       Serial1.print(w_value1a);
+       Serial1.print(",");
        ohm_value1a = w_value1a * resistance;
-       Serial.print(ohm_value1a);
-       Serial.print(",");
+       Serial1.print(ohm_value1a);
+       Serial1.print(",");
 
        ds2a.setWiper(j);
        w_value2a = j;
-       Serial.print(w_value2b);
-       Serial.print(",");
+       Serial1.print(w_value2b);
+       Serial1.print(",");
        ohm_value2b = w_value2b * resistance;
-       Serial.print(ohm_value2b);
-       Serial.print(",");
-       Serial.print(w_value2a);
-       Serial.print(",");
+       Serial1.print(ohm_value2b);
+       Serial1.print(",");
+       Serial1.print(w_value2a);
+       Serial1.print(",");
        ohm_value2a = w_value2a * resistance;
-       Serial.print(ohm_value2a);
-       Serial.print(",");
+       Serial1.print(ohm_value2a);
+       Serial1.print(",");
        getADCData();
        blinkLED();
        delay(delayTime);
 
-    Serial.println();
+    Serial1.println();
     //delay(delay_time);
 }
 
@@ -371,13 +338,13 @@ void getADCData(){
   float cTwo = 0;
 
   voltage = readChannel(ADS1115_COMP_0_1);
-  Serial.print(voltage);
+  Serial1.print(voltage);
   cOne = voltage;
-  Serial.print(",");
+  Serial1.print(",");
   voltage = 0.0;
     voltage = readChannel(ADS1115_COMP_2_3);
   cTwo = voltage;
-  Serial.println(voltage);
+  Serial1.println(voltage);
 
   //print to the LCD screen
   lcd.setCursor(0,1);
@@ -396,27 +363,27 @@ void printCSVHeader() {
     error = Wire.endTransmission();
     if (error == 0) //if lcd is available
     {
-      Serial.println("For solar cells 1 and 2.");
+      Serial1.println("For solar cells 1 and 2.");
     }
     else //if lcd is not available
     {
-      Serial.println("For solar cells 3 and 4.");
+      Serial1.println("For solar cells 3 and 4.");
     }   
     
-    Serial.print("H,M,S,clockTemp,");                                   //rtc
-    Serial.print("internalTemp,internalPres,internalAlt,internalHum,"); //internal bme
-    Serial.print("externalTemp,externalPres,externalAlt,externalHum,"); //external bme
-    Serial.print("x,y,z,xAccel,yAccel,zAccel,orientation,");            //mma
-    Serial.print("bin2,ds1b,bin1,ds1a,bin4,ds2b,bin3,ds2a,");                               //pots
-    Serial.print("cell1,cell2,");                                 //adc
-    Serial.println();
-    Serial.print("Real,Time,Clock,C,");
-    Serial.print("C,hPa,m,%,");
-    Serial.print("C,hPa,m,%,");
-    Serial.print("rawData,rawData,rawData,m/s^2 ,m/s^2 ,m/s^2,facing,");
-    Serial.print("i,ohms,j,ohms,mV,k,ohms,l,ohms,");
-    Serial.print("mV,mV,");
-    Serial.println();
+    Serial1.print("H,M,S,clockTemp,");                                   //rtc
+    Serial1.print("internalTemp,internalPres,internalAlt,internalHum,"); //internal bme
+    Serial1.print("externalTemp,externalPres,externalAlt,externalHum,"); //external bme
+    Serial1.print("x,y,z,xAccel,yAccel,zAccel,orientation,");            //mma
+    Serial1.print("bin2,ds1b,bin1,ds1a,bin4,ds2b,bin3,ds2a,");                               //pots
+    Serial1.print("cell1,cell2,");                                 //adc
+    Serial1.println();
+    Serial1.print("Real,Time,Clock,C,");
+    Serial1.print("C,hPa,m,%,");
+    Serial1.print("C,hPa,m,%,");
+    Serial1.print("rawData,rawData,rawData,m/s^2 ,m/s^2 ,m/s^2,facing,");
+    Serial1.print("i,ohms,j,ohms,mV,k,ohms,l,ohms,");
+    Serial1.print("mV,mV,");
+    Serial1.println();
 }
 
 void getRTCData(){
@@ -426,20 +393,20 @@ void getRTCData(){
   int m = 0;
   int s = 0;
   int hms = 0;
-  Serial.print(clock.getHour(h12Flag, pmFlag), DEC);
+  Serial1.print(clock.getHour(h12Flag, pmFlag), DEC);
   h = clock.getHour(h12Flag, pmFlag) / (60*60);
-    Serial.print(",");
-  Serial.print(clock.getMinute(), DEC);
+    Serial1.print(",");
+  Serial1.print(clock.getMinute(), DEC);
   m = clock.getMinute() / (60);
-    Serial.print(",");
-  Serial.print(clock.getSecond(), DEC);
+    Serial1.print(",");
+  Serial1.print(clock.getSecond(), DEC);
   s = clock.getSecond();
-    Serial.print(",");
+    Serial1.print(",");
   hms = h + m + s;
 
   // Display the temperature
-  Serial.print(clock.getTemperature(), 2);
-    Serial.print(",");
+  Serial1.print(clock.getTemperature(), 2);
+    Serial1.print(",");
 
     //print to the LCD screen
   lcd.setCursor(0,0);
@@ -454,14 +421,14 @@ void getRTCData(){
 
 void printValues(Adafruit_BME280 &bme) {
   float temp = 0;
-    Serial.print(bme.readTemperature());
-        Serial.print(",");
-    Serial.print(bme.readPressure() / 100.0F);
-        Serial.print(",");
-    Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
-        Serial.print(",");
-    Serial.print(bme.readHumidity());
-        Serial.print(",");
+    Serial1.print(bme.readTemperature());
+        Serial1.print(",");
+    Serial1.print(bme.readPressure() / 100.0F);
+        Serial1.print(",");
+    Serial1.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+        Serial1.print(",");
+    Serial1.print(bme.readHumidity());
+        Serial1.print(",");
     temp = bme.readTemperature();
 
 //print to the LCD screen
@@ -474,56 +441,56 @@ void getMMAValues()
 {
     // Read the 'raw' data in 14-bit counts
     mma.read();
-    Serial.print(mma.x);
-    Serial.print(",");
-    Serial.print(mma.y);
-    Serial.print(",");
-    Serial.print(mma.z);
-    Serial.print(",");
+    Serial1.print(mma.x);
+    Serial1.print(",");
+    Serial1.print(mma.y);
+    Serial1.print(",");
+    Serial1.print(mma.z);
+    Serial1.print(",");
 
     /* Get a new sensor event */
     sensors_event_t event;
     mma.getEvent(&event);
 
     /* Display the results (acceleration is measured in m/s^2) */
-    Serial.print(event.acceleration.x);
-    Serial.print(",");
-    Serial.print(event.acceleration.y);
-    Serial.print(",");
-    Serial.print(event.acceleration.z);
-    Serial.print(",");
+    Serial1.print(event.acceleration.x);
+    Serial1.print(",");
+    Serial1.print(event.acceleration.y);
+    Serial1.print(",");
+    Serial1.print(event.acceleration.z);
+    Serial1.print(",");
 
     /* Get the orientation of the sensor */
     uint8_t o = mma.getOrientation();
 
     switch (o) {
     case MMA8451_PL_PUF:
-        Serial.print
+        Serial1.print
         ("Portrait Up Front");
         break;
     case MMA8451_PL_PUB:
-        Serial.print("Portrait Up Back");
+        Serial1.print("Portrait Up Back");
         break;
     case MMA8451_PL_PDF:
-        Serial.print("Portrait Down Front");
+        Serial1.print("Portrait Down Front");
         break;
     case MMA8451_PL_PDB:
-        Serial.print("Portrait Down Back");
+        Serial1.print("Portrait Down Back");
         break;
     case MMA8451_PL_LRF:
-        Serial.print("Landscape Right Front");
+        Serial1.print("Landscape Right Front");
         break;
     case MMA8451_PL_LRB:
-        Serial.print("Landscape Right Back");
+        Serial1.print("Landscape Right Back");
         break;
     case MMA8451_PL_LLF:
-        Serial.print("Landscape Left Front");
+        Serial1.print("Landscape Left Front");
         break;
     case MMA8451_PL_LLB:
-        Serial.print("Landscape Left Back");
+        Serial1.print("Landscape Left Back");
         break;
     }
-        Serial.print(",");
+        Serial1.print(",");
 }
 
 void blinkLED(){

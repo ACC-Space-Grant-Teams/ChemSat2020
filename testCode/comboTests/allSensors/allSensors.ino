@@ -512,7 +512,7 @@ void getMMAValues()
         break;
     case MMA8451_PL_LRF:
         Serial.print("Landscape Right Front");
-        break;a
+        break;
     case MMA8451_PL_LRB:
         Serial.print("Landscape Right Back");
         break;

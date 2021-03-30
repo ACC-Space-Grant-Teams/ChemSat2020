@@ -90,6 +90,7 @@ void setup() {
 
     
     Serial.begin(9600);
+    Serial1.begin(9600);
 
     delay(2000);
     
@@ -178,7 +179,7 @@ void setup() {
 
 void loop() {
     getDSData();
-    
+    Serial.println("Getting data...");
     delay(delayTime);
     Serial1.println();
 }
@@ -389,20 +390,18 @@ void printCSVHeader() {
 void getRTCData(){
   // send what's going on to the serial monitor.
   //Print the hour, minute, and second
-  int h = 0;
-  int m = 0;
-  int s = 0;
-  int hms = 0;
+  int h;
+  int m;
+  int s;
   Serial1.print(clock.getHour(h12Flag, pmFlag), DEC);
-  h = clock.getHour(h12Flag, pmFlag) / (60*60);
+  h = clock.getHour(h12Flag, pmFlag);
     Serial1.print(",");
   Serial1.print(clock.getMinute(), DEC);
-  m = clock.getMinute() / (60);
+  m = clock.getMinute();
     Serial1.print(",");
   Serial1.print(clock.getSecond(), DEC);
   s = clock.getSecond();
     Serial1.print(",");
-  hms = h + m + s;
 
   // Display the temperature
   Serial1.print(clock.getTemperature(), 2);

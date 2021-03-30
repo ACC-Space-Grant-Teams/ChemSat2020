@@ -414,7 +414,7 @@ void printCSVHeader() {
     Serial.print("C,hPa,m,%,");
     Serial.print("C,hPa,m,%,");
     Serial.print("rawData,rawData,rawData,m/s^2 ,m/s^2 ,m/s^2,facing,");
-    Serial.print("i,ohms,j,ohms,mV,k,ohms,l,ohms,");
+    Serial.print("i,ohms,j,ohms,k,ohms,l,ohms,");
     Serial.print("mV,mV,");
     Serial.println();
 }

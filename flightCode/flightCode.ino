@@ -79,7 +79,7 @@ void setup() {
     lcd.init();
     lcd.backlight();
     lcd.setCursor(3,0);
-    lcd.print("Hello, world!");
+    lcd.print("Hello, ChemSat!");
     for(int i = 0; i < 5; i++)
     {
       digitalWrite(LED, HIGH);
@@ -381,7 +381,7 @@ void printCSVHeader() {
     Serial1.print("C,hPa,m,%,");
     Serial1.print("C,hPa,m,%,");
     Serial1.print("rawData,rawData,rawData,m/s^2 ,m/s^2 ,m/s^2,facing,");
-    Serial1.print("i,ohms,j,ohms,mV,k,ohms,l,ohms,");
+    Serial1.print("i,ohms,j,ohms,k,ohms,l,ohms,");
     Serial1.print("mV,mV,");
     Serial1.println();
 }

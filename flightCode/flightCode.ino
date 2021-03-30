@@ -317,7 +317,6 @@ int j = 127;
        delay(delayTime);
 
     Serial1.println();
-    //delay(delay_time);
 }
 
 void getSensorData(){
@@ -415,7 +414,6 @@ void getRTCData(){
   lcd.print(m);
   lcd.print(":");
   lcd.print(s);
-  //lcd.print(hms);
 }
 
 void printValues(Adafruit_BME280 &bme) {
@@ -433,7 +431,7 @@ void printValues(Adafruit_BME280 &bme) {
 //print to the LCD screen
   lcd.setCursor(0,3);
   lcd.print("Ext. Temp C: ");
-  lcd.print(temp);     
+  lcd.print(temp);     //default prints out the external since it is the second reading that comes through with how the sensor code is set up
 }
 
 void getMMAValues()
@@ -494,7 +492,6 @@ void getMMAValues()
 
 void blinkLED(){
     digitalWrite(LED, HIGH);
-    delay(50);
+    delay(25);
     digitalWrite(LED, LOW);
-    delay(50);
 }

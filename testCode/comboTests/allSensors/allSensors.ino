@@ -422,20 +422,20 @@ void printCSVHeader() {
 void getRTCData(){
   // send what's going on to the serial monitor.
   //Print the hour, minute, and second
-  int h = 0;
-  int m = 0;
-  int s = 0;
-  int hms = 0;
+  int h;
+  int m;
+  int s;
+
   Serial.print(clock.getHour(h12Flag, pmFlag), DEC);
-  h = clock.getHour(h12Flag, pmFlag) / (60*60);
+  h = clock.getHour(h12Flag, pmFlag);
     Serial.print(",");
   Serial.print(clock.getMinute(), DEC);
-  m = clock.getMinute() / (60);
+  m = clock.getMinute();
     Serial.print(",");
   Serial.print(clock.getSecond(), DEC);
   s = clock.getSecond();
     Serial.print(",");
-  hms = h + m + s;
+
 
   // Display the temperature
   Serial.print(clock.getTemperature(), 2);
@@ -449,7 +449,7 @@ void getRTCData(){
   lcd.print(m);
   lcd.print(":");
   lcd.print(s);
-  //lcd.print(hms);
+
 }
 
 void printValues(Adafruit_BME280 &bme) {
@@ -528,7 +528,7 @@ void getMMAValues()
 
 void blinkLED(){
     digitalWrite(LED, HIGH);
-    delay(50);
+    delay(25);
     digitalWrite(LED, LOW);
-    delay(50);
+    //delay(50);
 }

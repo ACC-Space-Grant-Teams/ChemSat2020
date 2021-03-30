@@ -1,4 +1,4 @@
-/***************************************************************************
++++++++++++++++++++++++++-/***************************************************************************
 Code for RTC, 2 BMEs, MMA, 4 potentiometers, ADC
 Jillian Frimml
 3/18/2021
@@ -88,7 +88,6 @@ void setup() {
       delay(200);
      }
 
-    
     Serial.begin(9600);
     Serial1.begin(9600);
 
@@ -99,21 +98,46 @@ void setup() {
     //BME
     if (! bme_internal.begin(0x77, &Wire)) {
         Serial1.println("Could not find a valid internal BME280 sensor, check wiring!");
-        lcd.println("Internal BME sensor issue.");
+        lcd.clear();
+        lcd.print("Internal BME sensor issue.");
+        delay(1000);
+        lcd.clear();
+    }
+    else
+    {
+      Serial1.println("Found internal BME280 sensor");
+        lcd.clear();
+        lcd.print("Found internal BME.");
+        delay(1000);
         lcd.clear();
     }
 
     if (! bme_external.begin(0x76, &Wire)) {
         Serial1.println("Could not find a valid external BME280 sensor, check wiring!");
-        lcd.println("External BME sensor issue.");
+        lcd.print("External BME sensor issue.");
+        delay(1000);
+        lcd.clear();
+    }
+    else
+    {
+      Serial1.println("Found external BME280 sensor");
+        lcd.print("Found external BME.");
+        delay(1000);
         lcd.clear();
     }
 
     //MMA
     if (! mma.begin()) {
       Serial1.println("Couldnt start mma");
-      lcd.println("MMA sensor issue.");
+      lcd.print("MMA sensor issue.");
+      delay(1000);
       lcd.clear();
+    }
+    else {
+      Serial1.println("Found MMA sensor");
+        lcd.print("Found MMA.");
+        delay(1000);
+        lcd.clear();
     }
     
     Serial1.print("Sealevelhpa,"); Serial.print(SEALEVELPRESSURE_HPA);
@@ -125,36 +149,76 @@ void setup() {
     if (!ds1a.begin(ds1a_address, &Wire)) {
         Serial1.println("Couldn't find DS1a chip");
         lcd.println("DS 1 sensor issue.");
+        delay(1000);
         lcd.clear();
         while (1);
+    }
+    else
+    {
+      Serial1.println("Found internal DS1a chip");
+        lcd.print("Found DS 1 chip");
+        delay(1000);
+        lcd.clear();
     }
 
     if (!ds1b.begin(ds1b_address, &Wire)) {
         Serial1.println("Couldn't find DS1b chip");
-        lcd.println("DS 2 sensor issue.");
+        lcd.print("DS 2 sensor issue.");
+        delay(1000);
         lcd.clear();
         while (1);
+    }
+    else
+    {
+      Serial1.println("Found internal DS1b chip");
+        lcd.print("Found DS 2 chip");
+        delay(1000);
+        lcd.clear();
     }
     
     if (!ds2a.begin(ds2a_address, &Wire)) {
         Serial1.println("Couldn't find DS2a chip");
-        lcd.println("DS 3 sensor issue.");
+        lcd.print("DS 3 sensor issue.");
+        delay(1000);
         lcd.clear();
         while (1);
+    }
+    else
+    {
+      Serial1.println("Found internal DSaa chip");
+        lcd.print("Found DS 3 chip");
+        delay(1000);
+        lcd.clear();
     }
 
     if (!ds2b.begin(ds2b_address, &Wire)) {
         Serial1.println("Couldn't find DS2b chip");
-        lcd.println("DS 4 sensor issue.");
+        lcd.print("DS 4 sensor issue.");
+        delay(1000);
         lcd.clear();
         while (1);
+    }
+    else
+    {
+      Serial1.println("Found internal DS2b chip");
+        lcd.print("Found DS 4 chip");
+        delay(1000);
+        lcd.clear();
     }
     
     //for the ADC
     if(!adc.init()){
       Serial1.println("ADS1115 not connected!");
-      lcd.println("ADS sensor issue.");
+      lcd.print("ADS sensor issue.");
+      delay(1000);
       lcd.clear();
+    }
+    else
+    {
+      Serial1.println("Found ADC");
+        lcd.print("Found ADC");
+        delay(1000);
+        lcd.clear();
     }
 
     adc.setVoltageRange_mV(ADS1115_RANGE_6144); //comment line/change parameter to change range, want 1024
@@ -163,12 +227,23 @@ void setup() {
 
     Serial1.println();
 
-
-    while(!Serial){
-        ; // wait for serial port to connect. Needed for native USB port only
-    }
-    lcd.setCursor(2,1);
+    lcd.setCursor(0,0);
+    lcd.print("Hi ChemSat,");
+    lcd.setCursor(0,1);
     lcd.print("Sytem ready");
+    lcd.setCursor(0,2);
+    lcd.print("Gathering data...");
+    lcd.setCursor(0,4);
+    lcd.print("Let's have fun!");
+    for(int i = 0; i < 5; i++)
+    {
+      digitalWrite(LED, HIGH);
+      delay(200);
+      digitalWrite(LED, LOW);
+      delay(200);
+     }
+
+    Serial1.println("Starting data gathering...");
     delay(1000);
     lcd.clear();
     

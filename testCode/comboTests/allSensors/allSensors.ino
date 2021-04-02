@@ -211,10 +211,13 @@ void getDSData(){
     ds2a.setWiper(0);
 
 //for the pot number 1b, with 1a set to 0
-    for (int i = 0; i <= 127; i+=10){
-       getSensorData();
+    for (int i = 0; i <= 127; i+=4){
+       //getSensorData();
        ds1b.setWiper(i);
        w_value1b = i;
+
+       delay(delayTime);
+       getSensorData();
        Serial.print(w_value1b);
        Serial.print(",");
        ohm_value1b = w_value1b * resistance;
@@ -239,7 +242,7 @@ void getDSData(){
        Serial.print(ohm_value2a);
        Serial.print(",");
        getADCData();
-       delay(delayTime);
+       //delay(delayTime);
        blinkLED();
     }
 
@@ -278,16 +281,19 @@ void getDSData(){
        delay(delayTime);
 */
 //for the pot number 1a, with 1b set to 127
-    for (int j = 3; j <= 127; j+=10){
+    for (int j = 1; j <= 127; j+=4){
 int i = 127;
 ds1b.setWiper(i);
 w_value1b = i;
 ds2b.setWiper(i);
 w_value2b = i;
 
-      getSensorData();
+       //getSensorData();
        ds1a.setWiper(j);
        w_value1a = j;
+
+       delay(delayTime);
+       getSensorData();
        Serial.print(w_value1b);
        Serial.print(",");
        ohm_value1b = w_value1b * resistance;
@@ -313,14 +319,17 @@ w_value2b = i;
        Serial.print(",");
        getADCData();
        blinkLED();
-       delay(delayTime);
+       //delay(delayTime);
     }
 
 //for the pot number 1a set to 127, with 1b set to 127
 int j = 127;
-      getSensorData();
+      //getSensorData();
        ds1a.setWiper(j);
        w_value1a = j;
+
+       delay(delayTime);
+       getSensorData();
        Serial.print(w_value1b);
        Serial.print(",");
        ohm_value1b = w_value1b * resistance;
@@ -330,6 +339,7 @@ int j = 127;
        Serial.print(",");
        ohm_value1a = w_value1a * resistance;
        Serial.print(ohm_value1a);
+       
        Serial.print(",");
 
        ds2a.setWiper(j);
@@ -346,7 +356,7 @@ int j = 127;
        Serial.print(",");
        getADCData();
        blinkLED();
-       delay(delayTime);
+       //delay(delayTime);
 
     Serial.println();
     //delay(delay_time);

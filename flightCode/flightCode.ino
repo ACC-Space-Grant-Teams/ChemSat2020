@@ -1,4 +1,4 @@
-+++++++++++++++++++++++++-/***************************************************************************
+/***************************************************************************
 Code for RTC, 2 BMEs, MMA, 4 potentiometers, ADC
 Jillian Frimml
 3/18/2021
@@ -230,7 +230,7 @@ void setup() {
     lcd.setCursor(0,0);
     lcd.print("Hi ChemSat,");
     lcd.setCursor(0,1);
-    lcd.print("Sytem ready");
+    lcd.print("Sytem ready");a
     lcd.setCursor(0,2);
     lcd.print("Gathering data...");
     lcd.setCursor(0,4);
@@ -287,10 +287,11 @@ void getDSData(){
     ds2a.setWiper(0);
 
 //for the pot number 1b, with 1a set to 0
-    for (int i = 0; i <= 127; i+=10){
-       getSensorData();
+    for (int i = 0; i <= 127; i+=4){
        ds1b.setWiper(i);
        w_value1b = i;
+       delay(delayTime);
+       getSensorData();
        Serial1.print(w_value1b);
        Serial1.print(",");
        ohm_value1b = w_value1b * resistance;
@@ -315,22 +316,22 @@ void getDSData(){
        Serial1.print(ohm_value2a);
        Serial1.print(",");
        getADCData();
-       delay(delayTime);
        blinkLED();
     }
 
 
 //for the pot number 1a, with 1b set to 127, continuing in steps of 10
-    for (int j = 3; j <= 127; j+=10){
+    for (int j = 1; j <= 127; j+=4){
 int i = 127;
 ds1b.setWiper(i);
 w_value1b = i;
 ds2b.setWiper(i);
 w_value2b = i;
 
-      getSensorData();
        ds1a.setWiper(j);
        w_value1a = j;
+       delay(delayTime);
+       getSensorData();
        Serial1.print(w_value1b);
        Serial1.print(",");
        ohm_value1b = w_value1b * resistance;
@@ -356,14 +357,14 @@ w_value2b = i;
        Serial1.print(",");
        getADCData();
        blinkLED();
-       delay(delayTime);
     }
 
 //for the pot number 1a set to 127, with 1b set to 127, a half step
-int j = 127;
-      getSensorData();
+int j = 127;      
        ds1a.setWiper(j);
        w_value1a = j;
+       delay(delayTime);
+       getSensorData();
        Serial1.print(w_value1b);
        Serial1.print(",");
        ohm_value1b = w_value1b * resistance;
@@ -389,7 +390,6 @@ int j = 127;
        Serial1.print(",");
        getADCData();
        blinkLED();
-       delay(delayTime);
 
     Serial1.println();
 }
@@ -442,7 +442,7 @@ void printCSVHeader() {
     }
     else //if lcd is not available
     {
-      Serial1.println("For solar cells 3 and 4.");
+      Serial1.println("For solar cells 3 and 4, internal and external BME sensors (temp/hum/press) are switched.");
     }   
     
     Serial1.print("H,M,S,clockTemp,");                                   //rtc
